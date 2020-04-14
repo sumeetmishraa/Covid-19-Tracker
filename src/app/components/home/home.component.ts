@@ -9,8 +9,6 @@ import { GoogleChartInterface } from 'ng2-google-charts';
   styleUrls: ['./home.component.css']
 })
 
-
-
 export class HomeComponent implements OnInit {
   globalData: GlobalDataSummary[];
 
@@ -24,17 +22,18 @@ export class HomeComponent implements OnInit {
     chartType: 'PieChart'
   }
 
-    /* column chart interface */
-    columnChart: GoogleChartInterface = {
-      chartType: 'columnChart'
-    }
+  /* column chart interface */
+  columnChart: GoogleChartInterface = {
+    chartType: 'columnChart'
+  }
   constructor(private dataservice?: dataServicesService) { }
+
+
 
   ngOnInit(): void {
     this.GET_GLOBAL_COVID_DATA();
-    this.INIT_CHART();
+    this.INIT_GOOGLE_CHART();
   }
-
 
 
   /** Get the globaldata (GITHUB REPO)*/
@@ -52,54 +51,36 @@ export class HomeComponent implements OnInit {
               this.totalDeath += element.death;
               this.totalRecovered += element.recovered;
             }
-
           });
         }
-
       }
-
-
     )
   }
 
-  /* Initialization of Pie chart*/
+  /* INITIALIZATION OF GOOGLE PIE AND COLUMN CHART */
+  INIT_GOOGLE_CHART() {
+    let ARRAY_DATATABLE = [];
+    ARRAY_DATATABLE.push(["country", "case"]);
 
-  INIT_CHART(){
-    let datatable = [];
-    datatable.push(["country", "case"]);
-    console.log(datatable);
-    
-    this.globalData.forEach(cs=>{
-      if(cs.confirmed > 2000){
-        datatable.push([ 
-          cs.country, cs.confirmed
-        ]);
+    this.globalData.forEach(item => {
+      if (item.confirmed > 2000) {
+        ARRAY_DATATABLE.push([item.country, item.confirmed]);
       }
-    
     });
-    console.log("DATATABLE::"+datatable);
-   
-   
-   
+    console.log("ARRAY_DATATABLE::" + ARRAY_DATATABLE);
+
     this.pieChart = {
       chartType: 'PieChart',
-      dataTable: datatable,
-      //firstRowIsData: true,
-      options: {
-        height: 500
-      },
+      dataTable: ARRAY_DATATABLE,
+      options: {height: 500},
     };
 
-     
     this.columnChart = {
       chartType: 'columnChart',
-      dataTable: datatable,
-      //firstRowIsData: true,
-      options: {
-        height: 500
-      },
+      dataTable: ARRAY_DATATABLE,
+      options: { height: 500 },
     };
 
   }
- 
+
 }
