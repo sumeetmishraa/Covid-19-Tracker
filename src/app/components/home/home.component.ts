@@ -32,7 +32,7 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
     this.GET_GLOBAL_COVID_DATA();
-    this.INIT_GOOGLE_CHART();
+    this.INIT_GOOGLE_CHART('c');
   }
 
 
@@ -58,14 +58,29 @@ export class HomeComponent implements OnInit {
   }
 
   /* INITIALIZATION OF GOOGLE PIE AND COLUMN CHART */
-  INIT_GOOGLE_CHART() {
+  INIT_GOOGLE_CHART(caseType: string) {
     let ARRAY_DATATABLE = [];
     ARRAY_DATATABLE.push(["country", "case"]);
-
+    
     this.globalData.forEach(item => {
-      if (item.confirmed > 2000) {
-        ARRAY_DATATABLE.push([item.country, item.confirmed]);
-      }
+      let CaseTypevalue: number;
+      if(caseType == 'c')
+        if (item.confirmed > 2000) 
+          // ARRAY_DATATABLE.push([item.country, item.confirmed]);
+          CaseTypevalue =  item.confirmed;
+        
+      if(caseType == 'd')
+      if(item.death > 100)
+      CaseTypevalue = item.death;
+
+      if(caseType == 'r')
+      if(item.recovered > 200)
+      CaseTypevalue = item.recovered;
+
+      if(caseType == 'a')
+      if(item.active >2000)
+      CaseTypevalue = item.active;
+     
     });
     console.log("ARRAY_DATATABLE::" + ARRAY_DATATABLE);
 
@@ -81,6 +96,13 @@ export class HomeComponent implements OnInit {
       options: { height: 500 },
     };
 
+  }
+
+
+  /* UPDATE CASE ACCORDING TO CASETYPE */
+  UpdateCase(input:HTMLInputElement){
+    console.log(input);
+    this.INIT_GOOGLE_CHART(input.value);
   }
 
 }
