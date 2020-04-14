@@ -26,9 +26,7 @@ export class dataServicesService {
         rows.splice(0,1);
         rows.forEach(row => {
           let cols = row.split(/,(?=\s)/);
-          console.log(cols);
          
-
           //Merging the objects 
           let cs = {
             country : cols[3],

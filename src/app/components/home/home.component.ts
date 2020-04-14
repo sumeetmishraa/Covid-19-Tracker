@@ -7,13 +7,16 @@ import { GlobalDataSummary } from '../../models/global-data-model';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.css']
 })
+
+
+
 export class HomeComponent implements OnInit {
+  globalData :GlobalDataSummary[];
+ 
   totalConfirmed = 0;
   totalActive = 0;
   totalRecovered = 0;
   totalDeath = 0;
-
-  globalData :GlobalDataSummary[];
   constructor(private dataservice?: dataServicesService) { }
 
   ngOnInit(): void {
@@ -38,7 +41,8 @@ export class HomeComponent implements OnInit {
               this.totalRecovered +=element.recovered;
             }
            
-          });        }
+          });        
+        }
 
       }
 
