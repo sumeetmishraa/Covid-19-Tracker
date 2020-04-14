@@ -11,6 +11,10 @@ export class CountriesComponent implements OnInit {
 
   GLOBAL_DATA: GlobalDataSummary[];
   COUNTRIES: string[] = [];
+  totalConfirmed = 0;
+  totalActive = 0;
+  totalRecovered = 0;
+  totalDeath = 0;
 
   constructor( private dataservice?: dataServicesService) { }
 
@@ -22,8 +26,11 @@ export class CountriesComponent implements OnInit {
   GET_COUNTRIES_DATA(){
     this.dataservice.getGlobaldata().subscribe(result=>{
       this.GLOBAL_DATA = result;
+      console.log("GLOBAL SUMMARY DATA::"  +JSON.stringify(this.GLOBAL_DATA));
       this.GLOBAL_DATA.forEach(element => {
         this.COUNTRIES.push(element.country);
+        console.log("TOTAL COUNTRIES::" +JSON.stringify(this.COUNTRIES));
+   
       });
 
     })
@@ -31,7 +38,16 @@ export class CountriesComponent implements OnInit {
 
 
   UpdateCountry(country: string){
-    // console.log(country);
+    console.log(country);
+
+    this.GLOBAL_DATA.forEach(element=>{
+      if(element.country == country){
+        this.totalConfirmed = element.confirmed;
+        this.totalActive = element.active;
+        this.totalDeath = element.death;
+        this.totalRecovered = element.recovered;
+      }
+    })
 
   }
 
