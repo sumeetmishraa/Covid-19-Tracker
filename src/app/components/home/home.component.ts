@@ -65,9 +65,9 @@ export class HomeComponent implements OnInit {
     this.globalData.forEach(item => {
       let CaseTypevalue: number;
       if(caseType == 'c')
-        if (item.confirmed > 2000) 
-          // ARRAY_DATATABLE.push([item.country, item.confirmed]);
-          CaseTypevalue =  item.confirmed;
+      if (item.confirmed > 2000) 
+      // ARRAY_DATATABLE.push([item.country, item.confirmed]);
+      CaseTypevalue =  item.confirmed;
         
       if(caseType == 'd')
       if(item.death > 100)
