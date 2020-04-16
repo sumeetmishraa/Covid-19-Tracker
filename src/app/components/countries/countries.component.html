@@ -3,22 +3,22 @@
     <hr>
     <div class="max-auto">
         <div class="form-group col-lg-5 max-auto text-center">
-            <label for ="country">Select Country</label>
+            <label for="country">Select Country</label>
             <select name="" class="form-control abc" id="country" #input (change)="UpdateCountry(input.value)">
-                <option value="{{item}}" *ngFor = "let item of COUNTRIES" >{{item}}</option>
+                <option value="{{item}}" *ngFor="let item of COUNTRIES">{{item}}</option>
             </select>
         </div>
     </div>
 
-    <app-dashboard-card [totalConfirmed] ="totalConfirmed" [totalActive] = "totalActive" [totalDeath] = "totalDeath" [totalRecovered] = "totalRecovered"></app-dashboard-card>
+    <app-dashboard-card [totalConfirmed]="totalConfirmed" [totalActive]="totalActive" [totalDeath]="totalDeath"
+        [totalRecovered]="totalRecovered"></app-dashboard-card>
 
-<div class="row">
-    <div class ="col">
-        <google-chart [data]="lineChart"></google-chart>
-    </div>
-    <div class ="col">
-        <div class ="card">
-            <table class ="table">
+    <div class="row">
+        <div class="col">
+            <google-chart [data]="lineChart"></google-chart>
+        </div>
+        <div class="col">
+            <table class="table">
                 <thead>
                     <tr>
                         <th>Sno.</th>
@@ -26,21 +26,17 @@
                         <th>Cases</th>
                     </tr>
                 </thead>
-    
+
                 <tbody>
-                    <tr *ngFor ="let item of selectedDatewise; index as i">
+                    <tr *ngFor="let item of selectedDatewise; index as i">
                         <td>{{i+1}}</td>
                         <td>{{item.date | date}}</td>
                         <td>{{item.case}}</td>
                     </tr>
                 </tbody>
-          
-    
             </table>
-    
         </div>
     </div>
-</div>
 
 
 </div>

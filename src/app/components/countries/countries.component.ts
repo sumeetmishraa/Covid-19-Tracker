@@ -59,12 +59,14 @@ export class CountriesComponent implements OnInit {
     })
 
     this.selectedDatewise = this.dateWiseData[country];
+    this.UpdateChart();
     console.log(this.selectedDatewise);
   }
 
   getDatewiseData(){
     this.dataservice.togetDateWiseData().subscribe(
       (result)=>{
+        this.UpdateChart()
 
         this.dateWiseData = result;
       // console.log(result);
