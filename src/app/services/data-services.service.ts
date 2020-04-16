@@ -2,16 +2,18 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { GlobalDataSummary } from "../models/global-data-model";
+import { Datewise_model } from "../models/dataWise-model";
 import _ from "lodash";
 
 @Injectable({
   providedIn: "root",
 })
 export class dataServicesService {
-  private globaldataUrl =
-    "https://raw.githubusercontent.com/CSSEGISanddata/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-12-2020.csv";
+  private globaldataUrl = "https://raw.githubusercontent.com/CSSEGISanddata/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-12-2020.csv";
+  private globalDateWiseUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
 
-  constructor(private http: HttpClient) {}
+
+  constructor(private http: HttpClient) { }
 
   csvJSON(csv) {
     var lines = csv.split("\n");
@@ -82,5 +84,50 @@ export class dataServicesService {
         return <GlobalDataSummary[]>Object.values(raw);
       })
     );
+  }
+
+
+  togetDateWiseData() {
+    return this.http.get(this.globalDateWiseUrl, { responseType: "text" })
+      .pipe(
+        map(result => {
+          // splits rows with comma
+          let rows = result.split("\n");
+
+          let mainData = {};
+
+          //Holding Header values 
+          let header = rows[0];
+          let dates = header.split(/,(?=\s)/);
+          // console.log(headerValues);
+
+          //get all the dates from the header
+          dates.splice(0, 4);
+          // console.log(dates);
+
+          rows.splice(0, 1);
+          rows.forEach(row => {
+            let columns = row.split(/,(?=\s)/);
+            let country = columns[1];
+            columns.splice(0, 4);
+            // console.log(columns, country);
+            mainData[country] = [];
+
+
+            //mapping of number of cases with header(date)
+            columns.forEach((value, index) => {
+
+              let DW: Datewise_model = {
+                case: +value,
+                country: country,
+                date: new Date(Date.parse(dates[index]))
+              }
+
+              mainData[country].push(DW);
+              console.log(mainData);
+            })
+          })
+
+        }))
   }
 }

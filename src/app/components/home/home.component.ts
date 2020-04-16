@@ -26,9 +26,9 @@ export class HomeComponent implements OnInit {
   columnChart: GoogleChartInterface = {
     chartType: 'columnChart'
   }
+
+  CaseTypevalue: number;
   constructor(private dataservice?: dataServicesService) { }
-
-
 
   ngOnInit(): void {
     this.GET_GLOBAL_COVID_DATA();
@@ -60,27 +60,27 @@ export class HomeComponent implements OnInit {
   /* INITIALIZATION OF GOOGLE PIE AND COLUMN CHART */
   INIT_GOOGLE_CHART(caseType: string) {
     let ARRAY_DATATABLE = [];
-    ARRAY_DATATABLE.push(["country", "case"]);
-    
-    this.globalData.forEach(item => {
-      let CaseTypevalue: number;
-      if(caseType == 'c')
-      if (item.confirmed > 2000) 
-      // ARRAY_DATATABLE.push([item.country, item.confirmed]);
-      CaseTypevalue =  item.confirmed;
-        
-      if(caseType == 'd')
-      if(item.death > 100)
-      CaseTypevalue = item.death;
-
-      if(caseType == 'r')
-      if(item.recovered > 200)
-      CaseTypevalue = item.recovered;
-
-      if(caseType == 'a')
-      if(item.active >2000)
-      CaseTypevalue = item.active;
+    ARRAY_DATATABLE.push(["country", "cases"]);
+    console.log("GLOBAL DATA ::"+JSON.stringify(this.globalData));
+   let  globalData: GlobalDataSummary[];
+    globalData.forEach(item => {
      
+      if(caseType == 'c' && item.confirmed > 2000){
+      ARRAY_DATATABLE.push([item.country, item.confirmed]);
+      this.CaseTypevalue =  item.confirmed;
+      }
+      if(caseType == 'd' && item.death >1000){
+        ARRAY_DATATABLE.push([item.country, item.death]);
+        this.CaseTypevalue = item.death;
+      }
+      if(caseType == 'r' && item.recovered >2000){
+        ARRAY_DATATABLE.push([item.country, item.recovered]);
+        this.CaseTypevalue = item.recovered;
+      }
+      if(caseType == 'a' && item.active >2000){
+        ARRAY_DATATABLE.push([item.country, item.active]);
+        this.CaseTypevalue = item.active;
+      }
     });
     console.log("ARRAY_DATATABLE::" + ARRAY_DATATABLE);
 
