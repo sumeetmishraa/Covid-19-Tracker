@@ -38,7 +38,7 @@ export class HomeComponent implements OnInit {
 
   /** Get the globaldata (GITHUB REPO)*/
   GET_GLOBAL_COVID_DATA() {
-    this.dataservice.getGlobaldata().subscribe(
+    this.dataservice.TO_GET_GLOBAL_DATA_SERVICE().subscribe(
       {
         next: (result) => {
           console.log(result);
@@ -62,23 +62,22 @@ export class HomeComponent implements OnInit {
     let ARRAY_DATATABLE = [];
     ARRAY_DATATABLE.push(["country", "cases"]);
     console.log("GLOBAL DATA ::"+JSON.stringify(this.globalData));
-   let  globalData: GlobalDataSummary[];
-    globalData.forEach(item => {
+    this.globalData.forEach(item => {
      
       if(caseType == 'c' && item.confirmed > 2000){
-      ARRAY_DATATABLE.push([item.country, item.confirmed]);
+      // ARRAY_DATATABLE.push([item.country, item.confirmed]);
       this.CaseTypevalue =  item.confirmed;
       }
       if(caseType == 'd' && item.death >1000){
-        ARRAY_DATATABLE.push([item.country, item.death]);
+        // ARRAY_DATATABLE.push([item.country, item.death]);
         this.CaseTypevalue = item.death;
       }
       if(caseType == 'r' && item.recovered >2000){
-        ARRAY_DATATABLE.push([item.country, item.recovered]);
+        // ARRAY_DATATABLE.push([item.country, item.recovered]);
         this.CaseTypevalue = item.recovered;
       }
       if(caseType == 'a' && item.active >2000){
-        ARRAY_DATATABLE.push([item.country, item.active]);
+        // ARRAY_DATATABLE.push([item.country, item.active]);
         this.CaseTypevalue = item.active;
       }
     });

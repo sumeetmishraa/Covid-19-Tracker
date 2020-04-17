@@ -4,7 +4,7 @@
     <div class="max-auto">
         <div class="form-group col-lg-5 max-auto text-center">
             <label for="country">Select Country</label>
-            <select name="" class="form-control abc" id="country" #input (change)="UpdateCountry(input.value)">
+            <select name="" class="form-control" id="country" #input (change)="SELECETD_COUNTRY_UPDATE(input.value)">
                 <option value="{{item}}" *ngFor="let item of COUNTRIES">{{item}}</option>
             </select>
         </div>

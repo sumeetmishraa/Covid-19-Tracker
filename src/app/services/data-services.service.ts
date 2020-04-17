@@ -9,17 +9,17 @@ import _ from "lodash";
   providedIn: "root",
 })
 export class dataServicesService {
-  private globaldataUrl = "https://raw.githubusercontent.com/CSSEGISanddata/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-12-2020.csv";
+  private globaldataUrl = "https://raw.githubusercontent.com/CSSEGISanddata/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-15-2020.csv";
   private globalDateWiseUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
 
 
   constructor(private http: HttpClient) { }
 
-  csvJSON(csv) {
+
+  /* ====== CONVERTING CSV DATA INTO JSON =======*/
+  CSV_TO_JSON(csv) {
     var lines = csv.split("\n");
-
     var result = [];
-
     var headers = lines[0].split(",");
 
     for (var i = 1; i < lines.length; i++) {
@@ -29,40 +29,35 @@ export class dataServicesService {
       for (var j = 0; j < headers.length; j++) {
         obj[headers[j]] = currentline[j];
       }
-
       result.push(obj);
     }
     return JSON.stringify(result); //JSON
   }
 
-  /** Function created for fetching the global data */
-  getGlobaldata() {
+
+  /* ======= TO GET GLOBAL DATA SERVICE ==========*/
+  TO_GET_GLOBAL_DATA_SERVICE() {
     return this.http.get(this.globaldataUrl, { responseType: "text" }).pipe(
       map((result) => {
         let data: GlobalDataSummary[] = [];
-        let jsonData = JSON.parse(this.csvJSON(result));
+        let jsonData = JSON.parse(this.CSV_TO_JSON(result));
         let raw = {};
 
-        let groupedData = _.groupBy(jsonData, "Country_Region");
-        Object.keys(groupedData).forEach((key) => {
+        let GROUPED_DATA = _.groupBy(jsonData, "Country_Region");
+        Object.keys(GROUPED_DATA).forEach((key) => {
           let cs = {
             country: key,
-            confirmed: groupedData[key].reduce(
-              (acc, cur) => acc + parseInt(cur.Confirmed),
-              0
-            ),
-            death: groupedData[key].reduce(
-              (acc, cur) => acc + parseInt(cur.Deaths),
-              0
-            ),
-            recovered: groupedData[key].reduce(
-              (acc, cur) => acc + parseInt(cur.Recovered),
-              0
-            ),
-            active: groupedData[key].reduce(
-              (acc, cur) => acc + parseInt(cur.Active),
-              0
-            ),
+            confirmed: GROUPED_DATA[key].reduce(
+              (acc, cur) => acc + parseInt(cur.Confirmed), 0),
+
+            death: GROUPED_DATA[key].reduce(
+              (acc, cur) => acc + parseInt(cur.Deaths), 0),
+
+            recovered: GROUPED_DATA[key].reduce(
+              (acc, cur) => acc + parseInt(cur.Recovered), 0),
+
+            active: GROUPED_DATA[key].reduce(
+              (acc, cur) => acc + parseInt(cur.Active), 0),
           };
           let temp: GlobalDataSummary = raw[cs.country];
 
@@ -80,26 +75,26 @@ export class dataServicesService {
           }
         });
 
-        //it will return global data object values
+        //It will return global data object values
         return <GlobalDataSummary[]>Object.values(raw);
       })
     );
   }
 
 
-  togetDateWiseData() {
+  /* ==== TO GET COUNTRY DATA DATE WISE SERVICE ========*/
+  TO_GET_COUNTRY_DATA_DATE_WISE_SERVICE() {
     return this.http.get(this.globalDateWiseUrl, { responseType: "text" })
       .pipe(
         map(result => {
           // splits rows with comma
           let rows = result.split("\n");
-
           let mainData = {};
 
           //Holding Header values 
           let header = rows[0];
           let dates = header.split(/,(?=\s)/);
-          // console.log(headerValues);
+          console.log(dates);
 
           //get all the dates from the header
           dates.splice(0, 4);

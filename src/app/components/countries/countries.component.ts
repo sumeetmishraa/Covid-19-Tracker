@@ -3,6 +3,8 @@ import { dataServicesService } from '../../services/data-services.service';
 import { GlobalDataSummary } from '../../models/global-data-model';
 import { Datewise_model } from "../../models/dataWise-model";
 import { GoogleChartInterface } from 'ng2-google-charts';
+
+
 @Component({
   selector: 'app-countries',
   templateUrl: './countries.component.html',
@@ -12,13 +14,14 @@ export class CountriesComponent implements OnInit {
 
   GLOBAL_DATA: GlobalDataSummary[];
   COUNTRIES: string[] = [];
-  totalConfirmed = 0;
-  totalActive = 0;
-  totalRecovered = 0;
-  totalDeath = 0;
   
-  selectedDatewise :Datewise_model[];
-  dateWiseData ;
+  totalConfirmed: number = 0;
+  totalActive: number = 0;
+  totalRecovered: number =0;
+  totalDeath : number= 0;
+  
+  selectedDatewise: Datewise_model[];
+  dateWiseData: any ;
 
   lineChart: GoogleChartInterface={
     chartType: "LineChart"
@@ -28,12 +31,13 @@ export class CountriesComponent implements OnInit {
 
   ngOnInit(): void {
     this.GET_COUNTRIES_DATA();
-    this.getDatewiseData();
+    this.TO_GET_DATEWISE_DATA();
+    
   }
 
 
   GET_COUNTRIES_DATA(){
-    this.dataservice.getGlobaldata().subscribe(result=>{
+    this.dataservice.TO_GET_GLOBAL_DATA_SERVICE().subscribe(result=>{
       this.GLOBAL_DATA = result;
       // console.log("GLOBAL SUMMARY DATA::"  +JSON.stringify(this.GLOBAL_DATA));
       this.GLOBAL_DATA.forEach(element => {
@@ -46,9 +50,9 @@ export class CountriesComponent implements OnInit {
   }
 
 
-  UpdateCountry(country: string){
-    // console.log(country);
 
+  /* Selected country data will update */
+  SELECETD_COUNTRY_UPDATE(country: string){
     this.GLOBAL_DATA.forEach(element=>{
       if(element.country == country){
         this.totalConfirmed = element.confirmed;
@@ -57,24 +61,25 @@ export class CountriesComponent implements OnInit {
         this.totalRecovered = element.recovered;
       }
     })
-
     this.selectedDatewise = this.dateWiseData[country];
-    this.UpdateChart();
+    this.TO_UPDATE_LINE_CHART();
     console.log(this.selectedDatewise);
   }
 
-  getDatewiseData(){
-    this.dataservice.togetDateWiseData().subscribe(
-      (result)=>{
-        this.UpdateChart()
 
+  /*Api call for Datewise data */
+  TO_GET_DATEWISE_DATA(){
+    this.dataservice.TO_GET_COUNTRY_DATA_DATE_WISE_SERVICE().subscribe(
+      (result)=>{
         this.dateWiseData = result;
-      // console.log(result);
+        this.TO_UPDATE_LINE_CHART();
+  
     })
   }
 
 
-  UpdateChart(){
+  /* Update the LineChart method */
+  TO_UPDATE_LINE_CHART(){
     let datatable = [];
     datatable.push(["cases","dates"]);
 
