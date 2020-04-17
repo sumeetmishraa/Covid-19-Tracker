@@ -10,98 +10,88 @@ import { GoogleChartInterface } from 'ng2-google-charts';
 })
 
 export class HomeComponent implements OnInit {
-  globalData: GlobalDataSummary[];
-
   totalConfirmed = 0;
   totalActive = 0;
   totalRecovered = 0;
   totalDeath = 0;
 
-  /* Pie chart interface */
+  globalData: GlobalDataSummary[];
+
   pieChart: GoogleChartInterface = {
     chartType: 'PieChart'
   }
 
-  /* column chart interface */
   columnChart: GoogleChartInterface = {
-    chartType: 'columnChart'
+    chartType: 'ColumnChart'
   }
 
-  CaseTypevalue: number;
   constructor(private dataservice?: dataServicesService) { }
 
-  ngOnInit(): void {
-    this.GET_GLOBAL_COVID_DATA();
-    this.INIT_GOOGLE_CHART('c');
-  }
 
+  /* Charts Integration */
+  InitChart(caseType: string) {
+    let datatable = [];
+    datatable.push(["country", "cases"]);
+      this.globalData.forEach(cs => {
+        let value: number;
+        if(caseType == "c")
+          if(cs.confirmed > 200)
+          value = cs.confirmed;
 
-  /** Get the globaldata (GITHUB REPO)*/
-  GET_GLOBAL_COVID_DATA() {
-    this.dataservice.TO_GET_GLOBAL_DATA_SERVICE().subscribe(
-      {
-        next: (result) => {
-          console.log(result);
-          this.globalData = result;
+        if(caseType == "d")
+          if(cs.death > 200)
+          value =cs.death
 
-          result.forEach(element => {
-            if (!Number.isNaN(element.confirmed)) {
-              this.totalConfirmed += element.confirmed;
-              this.totalActive += element.active;
-              this.totalDeath += element.death;
-              this.totalRecovered += element.recovered;
-            }
-          });
-        }
-      }
-    )
-  }
+        if(caseType == "r")
+          if(cs.recovered > 200)
+          value =cs.recovered
 
-  /* INITIALIZATION OF GOOGLE PIE AND COLUMN CHART */
-  INIT_GOOGLE_CHART(caseType: string) {
-    let ARRAY_DATATABLE = [];
-    ARRAY_DATATABLE.push(["country", "cases"]);
-    console.log("GLOBAL DATA ::"+JSON.stringify(this.globalData));
-    this.globalData.forEach(item => {
-     
-      if(caseType == 'c' && item.confirmed > 2000){
-      // ARRAY_DATATABLE.push([item.country, item.confirmed]);
-      this.CaseTypevalue =  item.confirmed;
-      }
-      if(caseType == 'd' && item.death >1000){
-        // ARRAY_DATATABLE.push([item.country, item.death]);
-        this.CaseTypevalue = item.death;
-      }
-      if(caseType == 'r' && item.recovered >2000){
-        // ARRAY_DATATABLE.push([item.country, item.recovered]);
-        this.CaseTypevalue = item.recovered;
-      }
-      if(caseType == 'a' && item.active >2000){
-        // ARRAY_DATATABLE.push([item.country, item.active]);
-        this.CaseTypevalue = item.active;
-      }
+        if(caseType == "a")
+          if(cs.active > 200)
+          value =cs.active
+
+          datatable.push([
+          cs.country, value]);
+       
     });
-    console.log("ARRAY_DATATABLE::" + ARRAY_DATATABLE);
+    console.log("datatable::" +JSON.stringify(datatable));
 
     this.pieChart = {
       chartType: 'PieChart',
-      dataTable: ARRAY_DATATABLE,
-      options: {height: 500},
+      dataTable: datatable,
+      options: { height: 500 },
     };
 
     this.columnChart = {
-      chartType: 'columnChart',
-      dataTable: ARRAY_DATATABLE,
+      chartType: 'ColumnChart',
+      dataTable: datatable,
       options: { height: 500 },
     };
 
   }
 
 
-  /* UPDATE CASE ACCORDING TO CASETYPE */
-  UpdateCase(input:HTMLInputElement){
-    console.log(input);
-    this.INIT_GOOGLE_CHART(input.value);
+  ngOnInit(): void {
+    this.dataservice.TO_GET_GLOBAL_DATA_SERVICE().subscribe({
+      next: (result) => {
+        this.globalData = result;
+        result.forEach(cs => {
+          if (!Number.isNaN(cs.confirmed)) {
+            this.totalConfirmed += cs.confirmed;
+            this.totalActive += cs.active;
+            this.totalDeath += cs.death;
+            this.totalRecovered += cs.recovered;
+          }
+        });
+        this.InitChart("c");
+      }
+    })
+
+  }
+
+
+  updateChart(input: HTMLInputElement){
+    this.InitChart(input.value);
   }
 
 }
