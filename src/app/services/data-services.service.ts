@@ -91,38 +91,45 @@ export class dataServicesService {
           let rows = result.split("\n");
           let mainData = {};
 
-          //Holding Header values 
+          //Holding Header values in an array
           let header = rows[0];
-          let dates = header.split(/,(?=\s)/);
-          console.log(dates);
+          let dates = header.split(/,(?=\S)/);
 
-          //get all the dates from the header
+          // Remove starting 4 elements(country,sate,lat,long)
           dates.splice(0, 4);
-          // console.log(dates);
+      
+          //Remove the first row from actual data
+          rows.splice(0, 1)
+        
+          //iterate in rows
+          rows.forEach(cs => {
+            //need to split with comma to get all the column value
+            let cols = cs.split(/,(?=\S)/);
 
-          rows.splice(0, 1);
-          rows.forEach(row => {
-            let columns = row.split(/,(?=\s)/);
-            let country = columns[1];
-            columns.splice(0, 4);
-            // console.log(columns, country);
-            mainData[country] = [];
+            //this represent the country name
+            let con = cols[1];
+
+            cols.splice(0, 4);
+            // console.log(con, cols);
 
 
-            //mapping of number of cases with header(date)
-            columns.forEach((value, index) => {
-
+            //mapping number of cases with the header(dates)
+            mainData[con] = [];
+            cols.forEach((value, index) => {
+              //create object of dates,number of cases and country
               let DW: Datewise_model = {
                 case: +value,
-                country: country,
+                country: con,
                 date: new Date(Date.parse(dates[index]))
-              }
 
-              mainData[country].push(DW);
-              console.log(mainData);
+              }
+              //object pushed
+              mainData[con].push(DW);
+              
             })
           })
-
+          //console.log("MAIN DATA OBJECT::" + JSON.stringify(mainData));
+          return mainData;
         }))
-  }
+      }
 }
