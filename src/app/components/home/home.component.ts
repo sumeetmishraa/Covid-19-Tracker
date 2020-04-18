@@ -34,24 +34,22 @@ export class HomeComponent implements OnInit {
     datatable.push(["country", "cases"]);
       this.globalData.forEach(cs => {
         let value: number;
-        if(caseType == "c")
-          if(cs.confirmed > 200)
+        if(caseType == "c" && cs.confirmed > 2000){
           value = cs.confirmed;
-
-        if(caseType == "d")
-          if(cs.death > 200)
-          value =cs.death
-
-        if(caseType == "r")
-          if(cs.recovered > 200)
-          value =cs.recovered
-
-        if(caseType == "a")
-          if(cs.active > 200)
-          value =cs.active
-
-          datatable.push([
-          cs.country, value]);
+        }
+        if(caseType == "d" && cs.death > 1000){
+          value = cs.death;
+        }
+        if(caseType == "r" && cs.recovered > 2000){
+          value =cs.recovered;
+        }
+        if(caseType == "a" && cs.active > 2000){
+          value =cs.active;
+        }
+        
+        datatable.push([
+          cs.country, value
+        ]);
        
     });
     console.log("datatable::" +JSON.stringify(datatable));
@@ -91,6 +89,7 @@ export class HomeComponent implements OnInit {
 
 
   updateChart(input: HTMLInputElement){
+    console.log("Update chart value::"+input.value)
     this.InitChart(input.value);
   }
 
