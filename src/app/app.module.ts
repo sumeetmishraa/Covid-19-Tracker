@@ -9,6 +9,11 @@ import { HomeComponent } from './components/home/home.component';
 import { CountriesComponent } from './components/countries/countries.component';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+/*Angular material components */
+import {  MatCardModule } from '@angular/material/card';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -16,14 +21,18 @@ import { DashboardCardComponent } from './components/dashboard-card/dashboard-ca
     NavbarComponent,
     HomeComponent,
     CountriesComponent,
-    DashboardCardComponent
+    DashboardCardComponent,
+    FooterComponent,
+   
   ],
   
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    Ng2GoogleChartsModule
+    Ng2GoogleChartsModule,
+    BrowserAnimationsModule,
+    MatCardModule
   ],
   providers: [],
   bootstrap: [AppComponent]
