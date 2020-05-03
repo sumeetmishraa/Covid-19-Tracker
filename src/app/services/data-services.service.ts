@@ -9,7 +9,7 @@ import _ from "lodash";
   providedIn: "root",
 })
 export class dataServicesService {
-  private globaldataUrl = "https://raw.githubusercontent.com/CSSEGISanddata/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/04-18-2020.csv";
+  private globaldataUrl = "https://raw.githubusercontent.com/CSSEGISanddata/COVID-19/master/csse_covid_19_data/csse_covid_19_daily_reports/05-02-2020.csv";
   private globalDateWiseUrl = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv"
 
 

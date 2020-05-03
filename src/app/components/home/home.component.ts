@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { dataServicesService } from '../../services/data-services.service';
 import { GlobalDataSummary } from '../../models/global-data-model';
-import { GoogleChartInterface } from 'ng2-google-charts';
+
+import { CASETYPE } from "../../enum/enum-config";
 
 @Component({
   selector: 'app-home',
@@ -15,71 +16,67 @@ export class HomeComponent implements OnInit {
   totalRecovered = 0;
   totalDeath = 0;
 
+  showSpinner = false;
+  datatable= [];
+
   globalData: GlobalDataSummary[];
+  
 
-  pieChart: GoogleChartInterface = {
-    chartType: 'PieChart'
+  chart ={
+    PieChart: 'PieChart',
+    ColumnChart: 'ColumnChart',
+    LineChart: 'LineChart',
+    height: 500,
+    options: { 
+      animation:{
+        duration: 1000,
+        easing: "out",
+      }, 
+      is3D: true
+    }
   }
-
-  columnChart: GoogleChartInterface = {
-    chartType: 'ColumnChart'
-  }
+ 
 
   constructor(private dataservice?: dataServicesService) { }
 
 
   /* Charts Integration */
   InitChart(caseType: string) {
-    let datatable = [];
-    datatable.push(["country", "cases"]);
+  console.log("CASETYPE::"+caseType);
+    this.datatable = [];
+    // this.datatable.push(["country", "cases"]);
       this.globalData.forEach(cs => {
         let value: number;
-        if(caseType == "c" && cs.confirmed > 2000){
+      
+        if(caseType == CASETYPE.CONFIRMRED && cs.confirmed > 2000){
           value = cs.confirmed;
+          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
         }
-        if(caseType == "d" && cs.death > 1000){
+        else if(caseType == CASETYPE.DEATH && cs.death > 1000 ){
           value = cs.death;
+          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
         }
-        if(caseType == "r" && cs.recovered > 2000){
-          value =cs.recovered;
+        else if(caseType == CASETYPE.RECOVERED && cs.recovered > 2000){
+          value = cs.recovered;
+          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
         }
-        if(caseType == "a" && cs.active > 2000){
-          value =cs.active;
+        else if(caseType == CASETYPE.ACTIVE && cs.active > 2000){
+          value = cs.active;
+          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
         }
         
-        datatable.push([
+        this.datatable.push([
           cs.country, value
         ]);
        
     });
-    console.log("datatable::" +JSON.stringify(datatable));
-
-    this.pieChart = {
-      chartType: 'PieChart',
-      dataTable: datatable,
-      options: { height: 500,
-        animation:{
-          duration: 1000,
-          easing: "out"
-        }, 
-      },
-    };
-
-    this.columnChart = {
-      chartType: 'ColumnChart',
-      dataTable: datatable,
-      options: { height: 500 ,
-        animation:{
-          duration: 1000,
-          easing: "out"
-        },
-      },
-    };
+    console.log("datatable::" +JSON.stringify(this.datatable));
 
   }
 
 
   ngOnInit(): void {
+    this.showSpinner= false;
     this.dataservice.TO_GET_GLOBAL_DATA_SERVICE().subscribe({
       next: (result) => {
         this.globalData = result;
@@ -91,7 +88,8 @@ export class HomeComponent implements OnInit {
             this.totalRecovered += cs.recovered;
           }
         });
-        this.InitChart("c");
+        
+      this.InitChart(CASETYPE.CONFIRMRED);
       }
     })
 
@@ -101,6 +99,7 @@ export class HomeComponent implements OnInit {
   updateChart(input: HTMLInputElement){
     console.log("Update chart value::"+input.value)
     this.InitChart(input.value);
+
   }
 
 }

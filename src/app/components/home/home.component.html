@@ -1,4 +1,5 @@
 <div class="container">
+  
   <div class="jumbotron bg-white text-center">
     <h1>CORONAVIRUS TRACKER</h1>
     <app-dashboard-card [totalConfirmed]="totalConfirmed" [totalActive]="totalActive" [totalDeath]="totalDeath"
@@ -31,12 +32,13 @@
 
    
     <!------ Google Chart Template ------>
+    <app-progress-spinner *ngIf ="showSpinner"></app-progress-spinner>
     <div class ="row">
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <google-chart [data]="columnChart"></google-chart>
+      <div class="col-sm-12 col-md-6 col-lg-9 col-xl-10">
+        <google-chart [type]="chart.PieChart" [data]="datatable" [options]="chart.options" [height]="chart.height" style ="width:100%"></google-chart>
       </div>
-      <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-        <google-chart [data]="pieChart"></google-chart>
+      <div class="col-sm-12 col-md-6 col-lg-9 col-xl-10">
+        <google-chart [type]="chart.ColumnChart" [data]="datatable" [options]="chart.options" [height]="chart.height" style ="width:100%"></google-chart>
       </div>
     </div>
     <!-------- End of Google chart ------------>

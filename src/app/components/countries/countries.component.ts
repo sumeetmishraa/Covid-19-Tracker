@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { dataServicesService } from '../../services/data-services.service';
 import { GlobalDataSummary } from '../../models/global-data-model';
 import { Datewise_model } from "../../models/dataWise-model";
-import { GoogleChartInterface } from 'ng2-google-charts';
+
 import { map } from "rxjs/operators";
 import { merge } from 'rxjs';
 
@@ -16,6 +16,7 @@ export class CountriesComponent implements OnInit {
 
   GLOBAL_DATA: GlobalDataSummary[];
   COUNTRIES: string[] = [];
+  datatable= [];
   
   totalConfirmed: number = 0;
   totalActive: number = 0;
@@ -24,9 +25,20 @@ export class CountriesComponent implements OnInit {
   
   selectedDatewise: Datewise_model[];
   dateWiseData;
+ 
+ 
+  
 
-  lineChart: GoogleChartInterface = {
-    chartType: "LineChart"
+  chart ={
+    LineChart: 'LineChart',
+    height: 500,
+    options: { 
+      animation:{
+        duration: 1000,
+        easing: "out"
+      } ,
+      is3D: true
+    }
   }
 
   constructor( private dataservice?: dataServicesService) { }
@@ -61,23 +73,13 @@ export class CountriesComponent implements OnInit {
 
   /* Update the LineChart method */
   TO_UPDATE_LINE_CHART(){
-    let datatable = [];
-    datatable.push(["dates","cases"]);
+    this.datatable = [];
+    // datatable.push(["dates","cases"]);
     console.log("chart data array::"+JSON.stringify(this.selectedDatewise));
     this.selectedDatewise.forEach(cs=>{
-      datatable.push([cs.date , cs.case]);
+      this.datatable.push([cs.date , cs.case]);
     })
 
-    this.lineChart = {
-      chartType: 'LineChart',
-      dataTable: datatable,
-      options: { height: 500,
-      animation:{
-        duration: 1000,
-        easing: "out"
-      } ,
-    },
-    };
   }
 
 

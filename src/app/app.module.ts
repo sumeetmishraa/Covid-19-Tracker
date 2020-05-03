@@ -1,19 +1,25 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { Ng2GoogleChartsModule } from 'ng2-google-charts';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { HomeComponent } from './components/home/home.component';
 import { CountriesComponent } from './components/countries/countries.component';
-import { HttpClientModule } from '@angular/common/http';
 import { DashboardCardComponent } from './components/dashboard-card/dashboard-card.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FooterComponent } from './components/footer/footer.component';
 
+
+/* Modules */
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule } from '@angular/common/http';
+import { GoogleChartsModule } from 'angular-google-charts';
 /*Angular material components */
 import {  MatCardModule } from '@angular/material/card';
-import { FooterComponent } from './components/footer/footer.component';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ProgressSpinnerComponent } from './components/progress-spinner/progress-spinner.component';
+
 
 @NgModule({
   declarations: [
@@ -23,6 +29,7 @@ import { FooterComponent } from './components/footer/footer.component';
     CountriesComponent,
     DashboardCardComponent,
     FooterComponent,
+    ProgressSpinnerComponent
    
   ],
   
@@ -30,9 +37,10 @@ import { FooterComponent } from './components/footer/footer.component';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    Ng2GoogleChartsModule,
     BrowserAnimationsModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule,
+    GoogleChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

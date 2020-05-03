@@ -16,7 +16,7 @@
     <div class="row">
         <!------- Google chart ----------->
         <div class="col-sm-12 col-md-6 col-lg-6 col-xl-6">
-            <google-chart [data]="lineChart"></google-chart>
+            <google-chart [type]="chart.LineChart" [data]="datatable" [options]="chart.options" [height]="chart.height" style ="width:100%"></google-chart>
         </div>
         <!-------End Of Google chart-=------>
         
