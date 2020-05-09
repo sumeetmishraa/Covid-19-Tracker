@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { dataServicesService } from '../../services/data-services.service';
 import { GlobalDataSummary } from '../../models/global-data-model';
-
 import { CASETYPE } from "../../enum/enum-config";
 
 @Component({
@@ -15,14 +14,10 @@ export class HomeComponent implements OnInit {
   totalActive = 0;
   totalRecovered = 0;
   totalDeath = 0;
-
   showSpinner = false;
   datatable= [];
-
   globalData: GlobalDataSummary[];
-  
-
-  chart ={
+  chart = {
     PieChart: 'PieChart',
     ColumnChart: 'ColumnChart',
     LineChart: 'LineChart',
@@ -36,47 +31,9 @@ export class HomeComponent implements OnInit {
     }
   }
  
-
   constructor(private dataservice?: dataServicesService) { }
 
-
-  /* Charts Integration */
-  InitChart(caseType: string) {
-  console.log("CASETYPE::"+caseType);
-    this.datatable = [];
-    // this.datatable.push(["country", "cases"]);
-      this.globalData.forEach(cs => {
-        let value: number;
-      
-        if(caseType == CASETYPE.CONFIRMRED && cs.confirmed > 2000){
-          value = cs.confirmed;
-          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
-        }
-        else if(caseType == CASETYPE.DEATH && cs.death > 1000 ){
-          value = cs.death;
-          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
-        }
-        else if(caseType == CASETYPE.RECOVERED && cs.recovered > 2000){
-          value = cs.recovered;
-          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
-        }
-        else if(caseType == CASETYPE.ACTIVE && cs.active > 2000){
-          value = cs.active;
-          console.log("CASETYPE AND VALUE::"+caseType + '' +value);
-        }
-        
-        this.datatable.push([
-          cs.country, value
-        ]);
-       
-    });
-    console.log("datatable::" +JSON.stringify(this.datatable));
-
-  }
-
-
   ngOnInit(): void {
-    this.showSpinner= false;
     this.dataservice.TO_GET_GLOBAL_DATA_SERVICE().subscribe({
       next: (result) => {
         this.globalData = result;
@@ -89,16 +46,46 @@ export class HomeComponent implements OnInit {
           }
         });
         
-      this.InitChart(CASETYPE.CONFIRMRED);
+      this.initGoogleChart(CASETYPE.CONFIRMRED);
       }
     })
 
   }
 
+   
+  /* Charts Integration */
+   initGoogleChart(caseType: string) {
+    console.log("CASETYPE::"+caseType);
+      this.datatable = [];
+        this.globalData.forEach(cs => {
+          let value: number;
+        
+          if(caseType == CASETYPE.CONFIRMRED && cs.confirmed > 2000){
+            value = cs.confirmed;
+          }
+          else if(caseType == CASETYPE.DEATH && cs.death > 1000 ){
+            value = cs.death;
+          }
+          else if(caseType == CASETYPE.RECOVERED && cs.recovered > 2000){
+            value = cs.recovered;
+          }
+          else if(caseType == CASETYPE.ACTIVE && cs.active > 2000){
+            value = cs.active;
+          }
+          this.datatable.push([
+            cs.country, value
+          ]);
+         
+      });
+      console.log("datatable::" +JSON.stringify(this.datatable));
+  
+    }
+  
 
-  updateChart(input: HTMLInputElement){
+    /*Update chart */
+    updateChart(input: HTMLInputElement){
     console.log("Update chart value::"+input.value)
-    this.InitChart(input.value);
+    this.initGoogleChart(input.value);
 
   }
 

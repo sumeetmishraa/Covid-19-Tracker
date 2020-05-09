@@ -1,43 +1,66 @@
-<div class="row">
-    <div class="card col-sm-12 col-md-8 col-lg-4 col-xl-6" style ="padding-bottom: 22px;">
-        <div class="ui statistic">
-            <div class="label">
-               <h3>Confirmed</h3> 
+
+<div class="row mx-5">
+    <div class="col-6 col-md-6 col-sm-12 p-4">
+        <mat-card>
+            <div class="ui statistic">
+                <div class="label">
+                    <h3>Confirmed</h3> 
+                </div>
+                <div class="value" style ="color:cadetblue">
+                    {{totalConfirmed |number}}
+                </div>
             </div>
-            <div class="value" style ="color:cadetblue">
-                {{totalConfirmed |number}}
-            </div>
-        </div>
+        </mat-card>
+        
     </div>
-    <div class ="card col-sm-12 col-md-8 col-lg-4 col-xl-6" style ="padding-bottom: 22px;">
-        <div class="ui statistic">
-            <div class="label">
-              <h3> Active</h3>  
+    <div class="col-6 col-md-6 col-sm-12 p-4">
+        <mat-card>
+            <div class="ui statistic">
+                <div class="label">
+                    <h3>Active</h3>  
+                </div>
+                <div class="value" style ="color:cadetblue">
+                    {{totalActive |number}}
+                </div>
             </div>
-            <div class="value" style ="color:cadetblue">
-                {{totalActive |number}}
-            </div>
-        </div>
-    </div>
-  
-    <div class ="card col-sm-12 col-md-8 col-lg-4 col-xl-6" style ="padding-bottom: 22px;">
-        <div class="ui statistic">
-            <div class="label">
-                <h3>Death</h3>
-            </div>
-            <div class="value" style ="color:cadetblue">
-                {{totalDeath |number}}
-            </div>
-        </div>
-    </div>
-    <div class ="card col-sm-12 col-md-8 col-lg-4 col-xl-6" style ="padding-bottom: 22px;">
-        <div class="ui statistic">
-            <div class="label">
-                <h3>Recovered</h3>
-            </div>
-            <div class="value" style ="color:cadetblue">
-               {{totalRecovered |number}} 
-            </div>
-        </div>
+        </mat-card>
+        
     </div>
 </div>
+<div class="row mx-5">
+    <div class="col-6 col-md-6 col-sm-12 p-4">
+        <mat-card>
+            <div class="ui statistic">
+                <div class="label">
+                    <h3>Death</h3>
+                </div>
+                <div class="value" style ="color:cadetblue">
+                    {{totalDeath |number}}
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div class="col-6 col-md-6 col-sm-12 p-4">
+
+    
+        <mat-card>
+            <div class="ui statistic">
+                <div class="label">
+                    <h3>Recovered</h3>
+                    </div>
+                <div class="value" style ="color:cadetblue">
+                    {{totalRecovered |number}} 
+                </div>
+            </div>
+        </mat-card>
+    </div>
+</div>
+
+
+
+
+
+  
+
+
+    
