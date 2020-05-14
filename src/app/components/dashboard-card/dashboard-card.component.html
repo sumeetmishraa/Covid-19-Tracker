@@ -1,66 +1,53 @@
-
-<div class="row mx-5">
-    <div class="col-6 col-md-6 col-sm-12 p-4">
-        <mat-card>
-            <div class="ui statistic">
-                <div class="label">
-                    <h3>Confirmed</h3> 
-                </div>
-                <div class="value" style ="color:cadetblue">
-                    {{totalConfirmed |number}}
-                </div>
-            </div>
-        </mat-card>
-        
-    </div>
-    <div class="col-6 col-md-6 col-sm-12 p-4">
-        <mat-card>
-            <div class="ui statistic">
-                <div class="label">
-                    <h3>Active</h3>  
-                </div>
-                <div class="value" style ="color:cadetblue">
-                    {{totalActive |number}}
-                </div>
-            </div>
-        </mat-card>
-        
-    </div>
-</div>
-<div class="row mx-5">
-    <div class="col-6 col-md-6 col-sm-12 p-4">
-        <mat-card>
-            <div class="ui statistic">
-                <div class="label">
-                    <h3>Death</h3>
-                </div>
-                <div class="value" style ="color:cadetblue">
-                    {{totalDeath |number}}
-                </div>
-            </div>
-        </mat-card>
-    </div>
-    <div class="col-6 col-md-6 col-sm-12 p-4">
-
-    
-        <mat-card>
-            <div class="ui statistic">
-                <div class="label">
-                    <h3>Recovered</h3>
-                    </div>
-                <div class="value" style ="color:cadetblue">
-                    {{totalRecovered |number}} 
-                </div>
-            </div>
-        </mat-card>
-    </div>
+<div class="d-flex flex-md-row flex-column justify-content-around mb-5">
+  <div class="mb-5 mb-md-0">
+    <mat-card style="width: 400px;">
+      <div class="ui statistic">
+        <div class="label">
+          <h3>Confirmed</h3>
+        </div>
+        <div class="value" style="color: cadetblue;">
+          {{ totalConfirmed | number }}
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card style="width: 400px;">
+      <div class="ui statistic">
+        <div class="label">
+          <h3>Active</h3>
+        </div>
+        <div class="value" style="color: cadetblue;">
+          {{ totalActive | number }}
+        </div>
+      </div>
+    </mat-card>
+  </div>
 </div>
 
-
-
-
-
-  
-
-
-    
+<div class="d-flex flex-md-row flex-column justify-content-around mb-5">
+  <div class="mb-5 mb-md-0">
+    <mat-card style="width: 400px;">
+      <div class="ui statistic">
+        <div class="label">
+          <h3>Death</h3>
+        </div>
+        <div class="value" style="color: cadetblue;">
+          {{ totalDeath | number }}
+        </div>
+      </div>
+    </mat-card>
+  </div>
+  <div>
+    <mat-card style="width: 400px;">
+      <div class="ui statistic">
+        <div class="label">
+          <h3>Recovered</h3>
+        </div>
+        <div class="value" style="color: cadetblue;">
+          {{ totalRecovered | number }}
+        </div>
+      </div>
+    </mat-card>
+  </div>
+</div>
